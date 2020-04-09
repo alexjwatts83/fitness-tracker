@@ -1,5 +1,9 @@
 <section class="sign-up-section">
-  <form fxLayout="column" fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <form fxLayout="column" 
+        fxLayoutAlign="center center" 
+        fxGap="10"
+        #f="ngForm" 
+        (ngSubmit)="onSubmit(f)">
     <mat-form-field>
       <input 
             matInput
@@ -46,6 +50,9 @@
                   color="primary"
                   >Agree to Terms and Conditions.</mat-checkbox>
 
-    <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="f.invalid">Submit</button>
   </form>
 </section>
