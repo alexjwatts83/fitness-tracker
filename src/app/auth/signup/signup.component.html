@@ -26,14 +26,25 @@
       <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
       <mat-error>Password should be at least 6 characters long.</mat-error>
     </mat-form-field>
-    
+
     <mat-form-field>
       <input  matInput
               [matDatepicker]="dobPicker"
-              placeholder="Enter Date of birth." >
+              placeholder="Enter Date of birth."
+              [max]="maxDobDate"
+              ngModel
+              name="dob"
+              required >
       <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
       <mat-datepicker #dobPicker></mat-datepicker>
     </mat-form-field>
+
+    <mat-checkbox labelPosition="before"
+                  ngModel
+                  name="agree"
+                  required
+                  color="primary"
+                  >Agree to Terms and Conditions.</mat-checkbox>
 
     <button mat-raised-button type="submit" color="primary">Submit</button>
   </form>
