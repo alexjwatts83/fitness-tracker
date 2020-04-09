@@ -5,10 +5,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './materials-module';
+import { SignupComponent } from './auth/signup/signup.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { 
+  TrainingComponent,
+  CurrentTrainingComponent,
+  NewTrainingComponent,
+  PastTrainingComponent } from './training';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignupComponent,
+    TrainingComponent,
+    CurrentTrainingComponent,
+    NewTrainingComponent,
+    PastTrainingComponent,
+    WelcomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
