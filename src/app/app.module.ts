@@ -13,6 +13,7 @@ import {
   NewTrainingComponent,
   PastTrainingComponent } from './training';
 import { LoginComponent } from './auth/login/login.component';
+import {FlexLayoutModule } from '@angular/flex-layout'
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { LoginComponent } from './auth/login/login.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
