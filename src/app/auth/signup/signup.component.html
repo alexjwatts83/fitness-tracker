@@ -26,6 +26,14 @@
       <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
       <mat-error>Password should be at least 6 characters long.</mat-error>
     </mat-form-field>
+    
+    <mat-form-field>
+      <input  matInput
+              [matDatepicker]="dobPicker"
+              placeholder="Enter Date of birth." >
+      <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+      <mat-datepicker #dobPicker></mat-datepicker>
+    </mat-form-field>
 
     <button mat-raised-button type="submit" color="primary">Submit</button>
   </form>
