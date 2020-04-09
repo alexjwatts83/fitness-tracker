@@ -2,37 +2,28 @@
   <form fxLayout="column" 
         fxLayoutAlign="center center" 
         fxGap="10"
-        #f="ngForm" 
-        (ngSubmit)="onSubmit(f)">
-
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()">
     <mat-form-field>
       <input 
             matInput
             type="email" 
             placeholder="Enter Email" 
-            name="email"
-            ngModel
-            email
-            required
-            #emailInput="ngModel" />
-      <mat-error *ngIf="emailInput.hasError('required')">Email is required.</mat-error>
-      <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid.</mat-error>
+            formControlName="email" />
+      <mat-error>Email is missing or invalid.</mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <input  matInput
               type="password"
               placeholder="Enter Password"
-              name="password"
-              ngModel
-              required
-              #pwInput="ngModel" />
+              formControlName="password" />
       <mat-error>Password is required.</mat-error>
     </mat-form-field>
 
     <button mat-raised-button
             type="submit"
             color="primary"
-            [disabled]="f.invalid">Submit</button>
+            [disabled]="loginForm.invalid">Submit</button>
   </form>
 </section>
