@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { 
   ConfirmComponent, 
   ConfirmComponentDialogData 
 } from 'src/app/dialogs/confirm/confirm.component';
+import { Exercise } from '../exercise.model';
 
 @Component({
   selector: 'app-current-training',
@@ -12,24 +13,36 @@ import {
 })
 export class CurrentTrainingComponent implements OnInit {
   @Output() exitTraining = new EventEmitter();
-
+  @Input() exercise: Exercise;
+  
   progress: number;
   timer: any;
   message: string;
+  progressInc: number;
+  count: number;
+  progressDisplay: number;
 
   constructor(public dialog: MatDialog) { 
     this.progress = 0;
-    this.message = 'keep it 100';
+    this.message = 'keep it one hunid';
+    this.count = 0;
   }
 
   ngOnInit(): void {
+    this.progressInc = 100 / this.exercise.duration;
     this.startOrResumeTimer();
   }
 
   startOrResumeTimer() {
-    this.message = 'keep it 100';
+    this.message = 'keep it one hunid';
     this.timer = setInterval(()=>{
-      this.progress += 25;
+      this.progress += this.progressInc;
+      this.count++;
+      console.log({
+        progress: this.progress,
+        count: this.count
+      });
+      this.progressDisplay = Math.floor(this.progress);
       if (this.progress >= 100) {
         this.stopInterval('Exercised finished');
       }

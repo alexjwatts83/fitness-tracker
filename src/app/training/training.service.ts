@@ -11,10 +11,11 @@ export class TrainingService {
 
   constructor() {
     this.availableExercisese = [
+      { id: 'plank', name: 'Plank', duration: 12, calories: 80 },
       { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
       { id: 'touch-toes', name: 'Touch Toes', duration: 180, calories: 15 },
       { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 18 },
-      { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 }
+      { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 },
     ]
   }
 
@@ -24,16 +25,12 @@ export class TrainingService {
 
   startExercise(exerciseId: string) {
     const exercise = this.availableExercisese.find((x: Exercise) => x.id === exerciseId);
-    console.log({
-      exercise: exercise,
-      exerciseId: exerciseId
-    });
-    if (exercise !== null) {
-      this.runningExercise = exercise;
-      console.log({
-        runningExercise: this.runningExercise
-      });
-      this.exerciseChanged.next(this.runningExercise);
-    }
+    this.runningExercise = exercise;
+    this.exerciseChanged.next({...this.runningExercise});
+  }
+
+  finishExercise() {
+    this.runningExercise = null;
+    this.exerciseChanged.next(null);
   }
 }

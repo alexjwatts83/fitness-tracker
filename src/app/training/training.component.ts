@@ -11,15 +11,21 @@ import { Exercise } from './exercise.model';
 export class TrainingComponent implements OnInit, OnDestroy {
   ongoingTraining = false;
   exercisedChanged$: Subscription;
+  exercises: Exercise[];
+  exercise: Exercise;
 
   constructor(private trainingService: TrainingService) { }
 
   ngOnInit(): void {
+    this.exercises = this.trainingService.getAll();
+
     this.exercisedChanged$ = this.trainingService.exerciseChanged
       .subscribe((exercise: Exercise) => {
-        
+        console.log({
+          exercise: exercise
+        });
         this.ongoingTraining = (exercise != null);
-        console.log('exercisedChanged called', exercise, this.ongoingTraining);
+        this.exercise = exercise;
       });
   }
 
@@ -32,7 +38,7 @@ export class TrainingComponent implements OnInit, OnDestroy {
   }
 
   finishTraining() {
-    console.log('finishTraining');
-    this.trainingService.startExercise(null);
+    console.log('finishTraining called');
+    this.trainingService.finishExercise();
   }
 }
