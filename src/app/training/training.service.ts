@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 export class TrainingService {
   private availableExercisese: Exercise[];
   private runningExercise: Exercise;
+  private exercises: Exercise[];
   
-  exercises: Exercise[];
   exerciseChanged = new Subject<Exercise>();
 
   constructor() {
@@ -19,6 +19,21 @@ export class TrainingService {
       { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 18 },
       { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 },
     ]
+    for(let i = 0; i < this.availableExercisese.length; i++) {
+      this.exercises.push({
+        ...this.availableExercisese[i],
+        date: new Date(),
+        state: 'completed'
+      });
+      let progress = Math.round(Math.random() * 100);
+      this.exercises.push({
+        ...this.availableExercisese[i],
+        duration: this.availableExercisese[i].duration * (progress / 100),
+        calories: this.availableExercisese[i].calories * (progress / 100),
+        date: new Date(),
+        state: 'cancelled'
+      });
+    }
   }
 
   getAll() {
@@ -51,5 +66,11 @@ export class TrainingService {
     });
     this.runningExercise = null;
     this.exerciseChanged.next(null);
+  }
+
+  getPastExercises() {
+    let newExercises = [...this.exercises];
+    
+    return newExercises;
   }
 }
