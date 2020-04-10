@@ -7,7 +7,7 @@ export class TrainingService {
   private availableExercisese: Exercise[];
   private runningExercise: Exercise;
   
-  exercises: any[];
+  exercises: Exercise[];
   exerciseChanged = new Subject<Exercise>();
 
   constructor() {

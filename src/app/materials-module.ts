@@ -15,6 +15,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule} from '@angular/material/table';
+import { MatSortModule} from '@angular/material/sort';
+import { MatPaginatorModule} from '@angular/material/paginator';
+
 const modules = [
   MatButtonModule,
   MatIconModule,
@@ -31,7 +35,10 @@ const modules = [
   MatSelectModule,
   MatProgressSpinnerModule,
   MatProgressBarModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule
 ];
 const imports = [...modules];
 const exports = [...modules];
