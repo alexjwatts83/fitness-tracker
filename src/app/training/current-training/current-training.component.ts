@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { 
+  ConfirmComponent, 
+  ConfirmComponentDialogData 
+} from 'src/app/dialogs/confirm/confirm.component';
 
 @Component({
   selector: 'app-current-training',
@@ -8,6 +11,8 @@ import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
   styleUrls: ['./current-training.component.scss']
 })
 export class CurrentTrainingComponent implements OnInit {
+  @Output() exitTraining = new EventEmitter();
+
   progress: number;
   timer: any;
   message: string;
@@ -18,6 +23,11 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.startOrResumeTimer();
+  }
+
+  startOrResumeTimer() {
+    this.message = 'keep it 100';
     this.timer = setInterval(()=>{
       this.progress += 25;
       if (this.progress >= 100) {
@@ -28,7 +38,22 @@ export class CurrentTrainingComponent implements OnInit {
 
   onStopClicked() {
     this.stopInterval('You stopped it');
-    this.dialog.open(ConfirmComponent);
+    var dialogData: ConfirmComponentDialogData = {
+      message: `Your current progress is ${this.progress}%`
+    }
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '250px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log('do stuff after close', result);
+      if(result) {
+        this.exitTraining.emit();
+      } else {
+        this.startOrResumeTimer();
+      }
+    });
   }
 
   stopInterval(msg: string) {
