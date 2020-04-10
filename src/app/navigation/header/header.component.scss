@@ -1,0 +1,13 @@
+.navigation-links{
+  list-style: none;
+  padding: 0px;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+
+  &:hover, &:active {
+    color: lightpink;
+  }
+}
