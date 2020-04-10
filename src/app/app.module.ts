@@ -19,6 +19,7 @@ import { HeaderComponent, SidenavListComponent } from './navigation';
 import { SiteNavService } from './navigation/site-nav.service';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { AuthService } from './auth/auth.service';
   providers: [
     SiteNavService,
     AuthService,
+    TrainingService,
   ],
   bootstrap: [
     AppComponent
