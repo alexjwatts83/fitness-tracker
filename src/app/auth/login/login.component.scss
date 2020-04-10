@@ -1,5 +1,8 @@
-.sign-up-section{
-  mat-form-field{
-    width: 300px;
+.sign-up-container{
+  padding: 30px;
+  .sign-up-section{
+    mat-form-field{
+      width: 300px;
+    }
   }
 }

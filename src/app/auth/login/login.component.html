@@ -1,29 +1,36 @@
-<section class="sign-up-section">
-  <form fxLayout="column" 
-        fxLayoutAlign="center center" 
-        fxGap="10"
-        [formGroup]="loginForm"
-        (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <input 
-            matInput
-            type="email" 
-            placeholder="Enter Email" 
-            formControlName="email" />
-      <mat-error>Email is missing or invalid.</mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input  matInput
-              type="password"
-              placeholder="Enter Password"
-              formControlName="password" />
-      <mat-error>Password is required.</mat-error>
-    </mat-form-field>
-
-    <button mat-raised-button
-            type="submit"
-            color="primary"
-            [disabled]="loginForm.invalid">Submit</button>
-  </form>
+<section class="sign-up-container" fxLayout fxLayoutAlign="center">
+  <mat-card fxFlex.xs="100%" fxFlex="400px">
+    <mat-card-title fxLayout="column" fxLayoutAlign="center center">Login</mat-card-title>
+    <mat-card-content>
+      <section class="sign-up-section">
+        <form fxLayout="column" 
+              fxLayoutAlign="center center" 
+              fxGap="10"
+              [formGroup]="loginForm"
+              (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <input 
+                  matInput
+                  type="email" 
+                  placeholder="Enter Email" 
+                  formControlName="email" />
+            <mat-error>Email is missing or invalid.</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input  matInput
+                    type="password"
+                    placeholder="Enter Password"
+                    formControlName="password" />
+            <mat-error>Password is required.</mat-error>
+          </mat-form-field>
+      
+          <button mat-raised-button
+                  type="submit"
+                  color="primary"
+                  [disabled]="loginForm.invalid">Submit</button>
+        </form>
+      </section>
+    </mat-card-content>
+  </mat-card>
 </section>

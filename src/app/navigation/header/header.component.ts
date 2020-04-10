@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
-import { Subscription } from 'rxjs';
 import { SiteLink } from '../site-nav.service';
 
 @Component({

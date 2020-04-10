@@ -1,58 +1,65 @@
-<section class="sign-up-section">
-  <form fxLayout="column" 
-        fxLayoutAlign="center center" 
-        fxGap="10"
-        #f="ngForm" 
-        (ngSubmit)="onSubmit(f)">
-    <mat-form-field>
-      <input 
-            matInput
-            type="email" 
-            placeholder="Enter Email" 
-            name="email"
-            ngModel
-            email
-            required
-            #emailInput="ngModel" />
-      <mat-error *ngIf="emailInput.hasError('required')">Email is required.</mat-error>
-      <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid.</mat-error>
-    </mat-form-field>
-
-    <mat-form-field hintLabel="Password should be at least 6 characters long.">
-      <input  matInput
-              type="password"
-              placeholder="Enter Password"
-              name="password"
-              ngModel
-              required
-              minlength="6"
-              #pwInput="ngModel" />
-      <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
-      <mat-error>Password should be at least 6 characters long.</mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input  matInput
-              [matDatepicker]="dobPicker"
-              placeholder="Enter Date of birth."
-              [max]="maxDobDate"
-              ngModel
-              name="dob"
-              required >
-      <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
-      <mat-datepicker #dobPicker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-checkbox labelPosition="before"
+<section class="sign-up-container" fxLayout fxLayoutAlign="center">
+  <mat-card fxFlex.xs="100%" fxFlex="400px">
+    <mat-card-title fxLayout="column" fxLayoutAlign="center center">Signup</mat-card-title>
+    <mat-card-content>
+      <section class="sign-up-section">
+        <form fxLayout="column" 
+              fxLayoutAlign="center center" 
+              fxGap="10"
+              #f="ngForm" 
+              (ngSubmit)="onSubmit(f)">
+          <mat-form-field>
+            <input 
+                  matInput
+                  type="email" 
+                  placeholder="Enter Email" 
+                  name="email"
                   ngModel
-                  name="agree"
+                  email
                   required
+                  #emailInput="ngModel" />
+            <mat-error *ngIf="emailInput.hasError('required')">Email is required.</mat-error>
+            <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid.</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field hintLabel="Password should be at least 6 characters long.">
+            <input  matInput
+                    type="password"
+                    placeholder="Enter Password"
+                    name="password"
+                    ngModel
+                    required
+                    minlength="6"
+                    #pwInput="ngModel" />
+            <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
+            <mat-error>Password should be at least 6 characters long.</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input  matInput
+                    [matDatepicker]="dobPicker"
+                    placeholder="Enter Date of birth."
+                    [max]="maxDobDate"
+                    ngModel
+                    name="dob"
+                    required >
+            <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker></mat-datepicker>
+          </mat-form-field>
+      
+          <mat-checkbox labelPosition="before"
+                        ngModel
+                        name="agree"
+                        required
+                        color="primary"
+                        >Agree to Terms and Conditions.</mat-checkbox>
+      
+          <button mat-raised-button
+                  type="submit"
                   color="primary"
-                  >Agree to Terms and Conditions.</mat-checkbox>
-
-    <button mat-raised-button
-            type="submit"
-            color="primary"
-            [disabled]="f.invalid">Submit</button>
-  </form>
+                  [disabled]="f.invalid">Submit</button>
+        </form>
+      </section>
+    </mat-card-content>
+  </mat-card>  
 </section>
