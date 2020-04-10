@@ -15,6 +15,8 @@ import {
 import { LoginComponent } from './auth/login/login.component';
 import {FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent, SidenavListComponent } from './navigation';
+import { SiteNavService } from './navigation/site-nav.service';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PastTrainingComponent,
     WelcomeComponent,
     LoginComponent,
+    HeaderComponent,
+    SidenavListComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [SiteNavService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
