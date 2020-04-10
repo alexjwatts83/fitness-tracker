@@ -17,7 +17,8 @@
                   ngModel
                   email
                   required
-                  #emailInput="ngModel" />
+                  #emailInput="ngModel"
+                  autocomplete="on" />
             <mat-error *ngIf="emailInput.hasError('required')">Email is required.</mat-error>
             <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid.</mat-error>
           </mat-form-field>
@@ -30,7 +31,8 @@
                     ngModel
                     required
                     minlength="6"
-                    #pwInput="ngModel" />
+                    #pwInput="ngModel"
+                    autocomplete="off" />
             <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
             <mat-error>Password should be at least 6 characters long.</mat-error>
           </mat-form-field>
