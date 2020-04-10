@@ -4,6 +4,13 @@
       <a *ngFor="let link of links" mat-list-item [routerLink]="link.route" (click)="sidenav.toggle()">
         <mat-icon>{{link.icon}}</mat-icon><span class="nav-caption">{{link.text}}</span>
       </a>
+      <hr />
+      <mat-list-item>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>logout</mat-icon>
+          <span class="nav-caption">Logout</span>
+        </button>
+      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -16,14 +23,11 @@
       <div><a routerLink="/">Logo</a></div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout class="navigation-links" fxLayoutGap="5px">
-          <li>
-            <a routerLink="/signup">Signup</a>
+          <li *ngFor="let link of links">
+            <a [routerLink]="link.route">{{link.text}}</a>
           </li>
           <li>
-            <a routerLink="/login">Login</a>
-          </li>
-          <li>
-            <a routerLink="/training">Training</a>
+            <a>Logout</a>
           </li>
         </ul>
       </div>
