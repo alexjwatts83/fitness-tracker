@@ -12,41 +12,36 @@ import { Exercise } from '../exercise.model';
   styleUrls: ['./current-training.component.scss']
 })
 export class CurrentTrainingComponent implements OnInit {
-  @Output() exitTraining = new EventEmitter();
+  @Output() completedTraining = new EventEmitter();
+  @Output() cancelTraining = new EventEmitter<number>();
   @Input() exercise: Exercise;
   
   progress: number;
   timer: any;
   message: string;
   progressInc: number;
-  count: number;
   progressDisplay: number;
 
   constructor(public dialog: MatDialog) { 
     this.progress = 0;
     this.message = 'keep it one hunid';
-    this.count = 0;
   }
 
   ngOnInit(): void {
-    this.progressInc = 100 / this.exercise.duration;
+    this.progressInc = this.exercise.duration / 100 * 1000;
     this.startOrResumeTimer();
   }
 
   startOrResumeTimer() {
     this.message = 'keep it one hunid';
     this.timer = setInterval(()=>{
-      this.progress += this.progressInc;
-      this.count++;
-      console.log({
-        progress: this.progress,
-        count: this.count
-      });
+      this.progress += 1;
       this.progressDisplay = Math.floor(this.progress);
       if (this.progress >= 100) {
         this.stopInterval('Exercised finished');
+        this.completedTraining.emit();
       }
-    }, 1000);
+    }, this.progressInc);
   }
 
   onStopClicked() {
@@ -62,7 +57,7 @@ export class CurrentTrainingComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log('do stuff after close', result);
       if(result) {
-        this.exitTraining.emit();
+        this.cancelTraining.emit(this.progress);
       } else {
         this.startOrResumeTimer();
       }

@@ -11,4 +11,5 @@
 <app-current-training 
       *ngIf="exercise"
       [exercise]="exercise"
-      (exitTraining)="finishTraining()"></app-current-training>
+      (completedTraining)="completedTraining()"
+      (cancelTraining)="cancelTraining($event)"></app-current-training>

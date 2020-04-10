@@ -37,8 +37,11 @@ export class TrainingComponent implements OnInit, OnDestroy {
     this.trainingService.startExercise(data);
   }
 
-  finishTraining() {
-    console.log('finishTraining called');
-    this.trainingService.finishExercise();
+  completedTraining() {
+    this.trainingService.completeExercise();
+  }
+
+  cancelTraining(progress: number) {
+    this.trainingService.cancelExercise(progress);
   }
 }
