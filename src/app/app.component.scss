@@ -4,6 +4,9 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
 
 mat-sidenav {
   width: 250px;
+  .nav-caption{
+    margin-left: 10px;;
+  }
 }
 
 mat-sidenav-content{

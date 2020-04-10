@@ -1,16 +1,20 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
-    <p>Yazzzzzzzzz</p>
+    <mat-nav-list>
+      <a *ngFor="let link of links" mat-list-item [routerLink]="link.route" (click)="sidenav.toggle()">
+        <mat-icon>{{link.icon}}</mat-icon><span class="nav-caption">{{link.text}}</span>
+      </a>
+    </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <div>
+      <div fxHide.gt-xs>
         <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
       </div>
       <div><a routerLink="/">Logo</a></div>
-      <div fxFlex fxLayout fxLayoutAlign="flex-end" >
+      <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout class="navigation-links" fxLayoutGap="5px">
           <li>
             <a routerLink="/signup">Signup</a>
