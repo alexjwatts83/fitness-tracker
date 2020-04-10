@@ -1,20 +1,31 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { SiteLink } from '../site-nav.service';
 
 @Component({
   selector: 'app-sidenav-list',
   templateUrl: './sidenav-list.component.html',
   styleUrls: ['./sidenav-list.component.scss']
 })
-export class SidenavListComponent implements OnInit {
-  @Input() links: any[];
+export class SidenavListComponent implements OnInit, OnDestroy{
+  @Input() links: SiteLink[];
+  @Input() isAuth: boolean;
   @Output() toggleSideNav = new EventEmitter<void>();
+  @Output() logoutClicked = new EventEmitter<void>();
   
   constructor() { }
   
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+  }
+
   onToggleSideNav() {
     this.toggleSideNav.emit();
+  }
+
+  onLogoutClicked() {
+    this.logoutClicked.emit();
+    this.onToggleSideNav();
   }
 }

@@ -6,9 +6,9 @@
     <mat-icon>{{link.icon}}</mat-icon>
     <span class="nav-caption">{{link.text}}</span>
   </a>
-  <hr />
-  <mat-list-item>
-    <button mat-icon-button (click)="onToggleSideNav()">
+  <hr *ngIf="isAuth" />
+  <mat-list-item  *ngIf="isAuth">
+    <button mat-icon-button (click)="onLogoutClicked()">
       <mat-icon>logout</mat-icon>
       <span class="nav-caption">Logout</span>
     </button>

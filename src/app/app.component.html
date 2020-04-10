@@ -1,11 +1,15 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <app-sidenav-list (toggleSideNav)="sidenav.toggle()" 
-                      [links]="links"></app-sidenav-list>
+                      [links]="links"
+                      [isAuth]="isAuth"
+                      (logoutClicked)="logout()"></app-sidenav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-header (toggleSideNav)="sidenav.toggle()"
-                [links]="links"></app-header>
+                [links]="links"
+                [isAuth]="isAuth"
+                (logoutClicked)="logout()"></app-header>
     <main>
       <router-outlet></router-outlet>
     </main>

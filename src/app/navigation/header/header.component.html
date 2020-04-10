@@ -10,8 +10,8 @@
       <li *ngFor="let link of links">
         <a [routerLink]="link.route">{{link.text}}</a>
       </li>
-      <li>
-        <a>Logout</a>
+      <li *ngIf="isAuth">
+        <a (click)="onLogoutClicked()">Logout</a>
       </li>
     </ul>
   </div>

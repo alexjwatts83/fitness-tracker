@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent, SidenavListComponent } from './navigation';
 import { SiteNavService } from './navigation/site-nav.service';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ConfirmComponent } from './dialogs/confirm/confirm.component';
     ReactiveFormsModule
   ],
   providers: [
-    SiteNavService
+    SiteNavService,
+    AuthService
   ],
   bootstrap: [
     AppComponent
