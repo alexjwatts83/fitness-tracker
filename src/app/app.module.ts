@@ -17,6 +17,7 @@ import {FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent, SidenavListComponent } from './navigation';
 import { SiteNavService } from './navigation/site-nav.service';
+import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SiteNavService } from './navigation/site-nav.service';
     LoginComponent,
     HeaderComponent,
     SidenavListComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,14 @@ import { SiteNavService } from './navigation/site-nav.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [SiteNavService],
-  bootstrap: [AppComponent]
+  providers: [
+    SiteNavService
+  ],
+  bootstrap: [
+    AppComponent
+  ],
+  entryComponents: [
+    ConfirmComponent
+  ]
 })
 export class AppModule { }

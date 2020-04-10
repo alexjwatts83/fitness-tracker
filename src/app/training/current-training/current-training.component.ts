@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ThrowStmt } from '@angular/compiler';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 
 @Component({
   selector: 'app-current-training',
@@ -10,7 +11,8 @@ export class CurrentTrainingComponent implements OnInit {
   progress: number;
   timer: any;
   message: string;
-  constructor() { 
+
+  constructor(public dialog: MatDialog) { 
     this.progress = 0;
     this.message = 'keep it 100';
   }
@@ -26,6 +28,7 @@ export class CurrentTrainingComponent implements OnInit {
 
   onStopClicked() {
     this.stopInterval('You stopped it');
+    this.dialog.open(ConfirmComponent);
   }
 
   stopInterval(msg: string) {
