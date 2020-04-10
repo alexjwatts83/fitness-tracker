@@ -7,9 +7,7 @@ export interface SiteLink {
   hideIfAuth: boolean
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SiteNavService {
   private links: SiteLink[] = [
     { 

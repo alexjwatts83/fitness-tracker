@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { SignupComponent, LoginComponent } from './auth';
 import { TrainingComponent } from './training';
+import { AuthGaurd } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,12 +20,14 @@ const routes: Routes = [
   },
   {
     path: 'training',
-    component: TrainingComponent
+    component: TrainingComponent,
+    canActivate: [AuthGaurd]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGaurd]
 })
 export class AppRoutingModule { }

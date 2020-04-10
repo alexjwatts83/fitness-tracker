@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { AuthData } from './auth-data.model';
 import { User } from './user.model';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   private user: User;
   authChanged = new Subject<boolean>();
 
-  constructor() {
+  constructor(private router: Router) {
     this.user =null; 
   }
 
@@ -39,6 +38,11 @@ export class AuthService {
 
   private setAuthChanged(isAuth: boolean) {
     this.authChanged.next(isAuth);
+    if (isAuth){
+      this.router.navigate(['/training']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   getUser() {
@@ -46,6 +50,6 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.user === null;
+    return this.user !== null;
   }
 }

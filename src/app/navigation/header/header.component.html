@@ -11,7 +11,7 @@
         <a [routerLink]="link.route">{{link.text}}</a>
       </li>
       <li *ngIf="isAuth">
-        <a (click)="onLogoutClicked()">Logout</a>
+        <a class="logout-link" (click)="onLogoutClicked()">Logout</a>
       </li>
     </ul>
   </div>

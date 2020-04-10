@@ -45,7 +45,7 @@ import { AuthService } from './auth/auth.service';
   ],
   providers: [
     SiteNavService,
-    AuthService
+    AuthService,
   ],
   bootstrap: [
     AppComponent
