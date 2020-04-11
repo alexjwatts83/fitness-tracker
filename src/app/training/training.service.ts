@@ -30,55 +30,39 @@ export class TrainingService implements OnDestroy {
   fetchAvailableExercises() {
     console.log('fetchAvailableExercises');
     this.uiService.loadingStateChanged.next(true);
-    this.sleep(2000).then(() => { console.log("World!"); this.doStuff(); });
     
-    // this.fbSubs.push(this.db
-    //   .collection('availableExercises')
-    //   .snapshotChanges()
-    //   .map(docArray => {
-    //     return docArray.map(doc => {
-    //       return {
-    //         id: doc.payload.doc.id,
-    //         name: doc.payload.doc.data()['name'],
-    //         duration: doc.payload.doc.data()['duration'],
-    //         calories: doc.payload.doc.data()['calories']
-    //       };
-    //     });
-    //   })
-    //   .subscribe((exercises: Exercise[]) => {
-    //     this.availableExercises = exercises;
-    //     this.exercisesChanged.next([...this.availableExercises]);
-    //   }));
+    this.sleep(200).then(() => { console.log("World!"); this.fetchAvailableExercisesFromDb(); });
   }
 
-  doStuff() {
-    console.log('doStuff');
+  private fetchAvailableExercisesFromDb() {
+    console.log('fetchAvailableExercisesFromDb');
     this.availableExercisesCollection = this.afs.collection<Exercise>('AvailableExercises');
-
-      this.fbSubs.push(this.availableExercisesCollection
-        .snapshotChanges()
-        .subscribe(response => {
-          this.availableExercises = response.map((x: any) => {
-            const data = x.payload.doc.data() as Exercise;
-            const id = x.payload.doc.id;
-            return { 
-              id,
-              ...data 
-            };
-          });
-          console.log('snapshotChanges');
-          this.exercisesChanged.next([...this.availableExercises]);
-          this.uiService.loadingStateChanged.next(false);
-        },
-        ((error: any) => {
-          // console.log(error);
-          this.uiService.loadingStateChanged.next(false);
-        }),
-        ()=> {
-          console.log('complete');
-          console.log('fetchAvailableExercises finished');
-        })
-      );
+    this.fbSubs.push(this.availableExercisesCollection
+      .snapshotChanges()
+      .subscribe(response => {
+        this.availableExercises = response.map((x: any) => {
+          const data = x.payload.doc.data() as Exercise;
+          const id = x.payload.doc.id;
+          return { 
+            id,
+            ...data 
+          };
+        });
+        console.log('snapshotChanges');
+        this.exercisesChanged.next([...this.availableExercises]);
+        this.uiService.loadingStateChanged.next(false);
+      },
+      ((error: any) => {
+        // console.log(error);
+        this.uiService.loadingStateChanged.next(false);
+        this.uiService.openSnackBar('Fetching Exercises failed, please try again later');
+        this.exercisesChanged.next(null);
+      }),
+      ()=> {
+        console.log('complete');
+        console.log('fetchAvailableExercises finished');
+      })
+    );
   }
 
   cancelSubscriptions() {

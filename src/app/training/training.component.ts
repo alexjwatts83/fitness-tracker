@@ -23,11 +23,13 @@ export class TrainingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log('TrainingComponent ngOnInit');
-    this.trainingService.fetchAvailableExercises();
+    this.fetchAgain();
+
     this.exercisesChanged$ = this.trainingService
       .exercisesChanged
       .subscribe((data: Exercise[]) => {
         this.exercises = data;
+        // this.exercises = null;
       });
 
     this.exerciseChanged$ = this.trainingService
@@ -52,5 +54,9 @@ export class TrainingComponent implements OnInit, OnDestroy {
 
   cancelTraining(progress: number) {
     this.trainingService.cancelExercise(progress);
+  }
+
+  fetchAgain() {
+    this.trainingService.fetchAvailableExercises();
   }
 }

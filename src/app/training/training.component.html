@@ -1,7 +1,8 @@
 <mat-tab-group *ngIf="!exercise">
   <mat-tab label="New Exercise">
     <app-new-training (startTraining)="startTraining($event)"
-                      [exercises]="exercises"></app-new-training>
+                      [exercises]="exercises"
+                      (fetchAgain)="fetchAgain()"></app-new-training>
   </mat-tab>
   <mat-tab label="Past Exercises">
     <app-past-training></app-past-training>

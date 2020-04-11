@@ -16,15 +16,8 @@ export class AuthService {
     private router: Router,
     private afAuth: AngularFireAuth,
     private trainingService: TrainingService,
-    private snackBar: MatSnackBar,
     private uiService: UiService
   ) {}
-
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
@@ -52,7 +45,7 @@ export class AuthService {
       })
       .catch(error => {
         console.log(error);
-        this.openSnackBar(error.message, null);
+        this.uiService.openSnackBar(error.message);
         this.uiService.loadingStateChanged.next(false);
       });
   }
@@ -68,7 +61,7 @@ export class AuthService {
       })
       .catch(error => {
         console.log(error);
-        this.openSnackBar(error.message, null);
+        this.uiService.openSnackBar(error.message);
         this.uiService.loadingStateChanged.next(false);
       });
   }

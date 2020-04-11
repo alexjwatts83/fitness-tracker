@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
   @Output() startTraining = new EventEmitter<string>();
+  @Output() fetchAgain = new EventEmitter<void>();
   @Input() exercises: Exercise[];
 
   private isLoadingSub$ =  new Subscription();
@@ -41,5 +42,9 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   onStartTraining() {
     this.startTraining.emit(this.newExerciseForm.value.exercise);
+  }
+
+  onFetchAgain() {
+    this.fetchAgain.emit();
   }
 }

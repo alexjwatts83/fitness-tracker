@@ -6,7 +6,7 @@
     
     <mat-card-content fxLayoutAlign="center">
       <form [formGroup]="newExerciseForm">
-        <mat-form-field *ngIf="!isLoading">
+        <mat-form-field *ngIf="exercises && !isLoading">
           <mat-label>Select Exercise:</mat-label>
           <mat-select aria-placeholder="Select Exercise"
                       required
@@ -26,7 +26,13 @@
                 color="primary"
                 [disabled]="newExerciseForm.invalid"
                 (click)="onStartTraining()"
-                *ngIf="!isLoading">Start</button>
+                *ngIf="exercises">Start</button>
+
+      <button   mat-raised-button 
+                type="button"
+                color="primary"
+                (click)="onFetchAgain()"
+                *ngIf="!exercises && !isLoading">Fetch Again</button>
     </mat-card-actions>
   </mat-card>
 </section>
