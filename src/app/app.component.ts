@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SiteNavService, SiteLink } from './navigation/site-nav.service';
 import { AuthService } from './auth/auth.service';
 import { Subscription } from 'rxjs';
+import { UiService } from './shared/ui.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,10 @@ export class AppComponent implements OnInit, OnDestroy {
   links: SiteLink[];
   authSub$: Subscription;
   isAuth: boolean;
-  constructor(private service: SiteNavService, private authService: AuthService){
+  constructor(
+      private service: SiteNavService,
+      private authService: AuthService,
+      private uiService: UiService){
     this.isAuth = false;
     this.links = this.getLinks(!this.isAuth);
   }
