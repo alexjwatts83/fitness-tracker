@@ -1,6 +1,6 @@
 import { Exercise } from './exercise.model';
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 @Injectable()
@@ -13,10 +13,12 @@ export class TrainingService implements OnDestroy {
   exerciseChanged = new Subject<Exercise>();
   finishedExercisesChanged = new Subject<Exercise[]>();
 
+  fbSubs: Subscription[] = [];
+
   constructor(private readonly afs: AngularFirestore) {
     this.availableExercisesCollection = afs.collection<Exercise>('AvailableExercises');
 
-    this.availableExercisesCollection
+    this.fbSubs.push(this.availableExercisesCollection
       .snapshotChanges()
       .subscribe(response => {
 
@@ -36,10 +38,18 @@ export class TrainingService implements OnDestroy {
       }),
       ()=> {
         console.log('complete');
-      });
+      })
+    );
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.cancelSubscriptions()
+  }
+
+  cancelSubscriptions() {
+    console.log('cancelSubscriptions called');
+    this.fbSubs.forEach(x=>x.unsubscribe());
+  }
 
   startExercise(exerciseId: string) {
     const exercise = this.availableExercises.find((x: Exercise) => x.id === exerciseId);
@@ -70,12 +80,12 @@ export class TrainingService implements OnDestroy {
   }
 
   fetchPastExercises() {
-    this.afs
+    this.fbSubs.push(this.afs
       .collection('PastExercises')
       .valueChanges()
       .subscribe((exercises: Exercise[]) => {
         this.finishedExercisesChanged.next(exercises);
-      });
+      }));
   }
 
   addExerciseToPastExercises(exercise: Exercise) {
