@@ -16,7 +16,14 @@ export class TrainingService implements OnDestroy {
   fbSubs: Subscription[] = [];
 
   constructor(private readonly afs: AngularFirestore) {
-    this.availableExercisesCollection = afs.collection<Exercise>('AvailableExercises');
+  }
+
+  ngOnDestroy() {
+    // this.cancelSubscriptions()
+  }
+
+  fetchAvailableExercises() {
+    this.availableExercisesCollection = this.afs.collection<Exercise>('AvailableExercises');
 
     this.fbSubs.push(this.availableExercisesCollection
       .snapshotChanges()
@@ -31,19 +38,32 @@ export class TrainingService implements OnDestroy {
           };
         });
         console.log('snapshotChanges');
-        this.exercisesChanged.next(this.availableExercises);
+        this.exercisesChanged.next([...this.availableExercises]);
       },
       ((error: any) => {
-        console.log(error);
+        // console.log(error);
       }),
       ()=> {
         console.log('complete');
       })
     );
-  }
-
-  ngOnDestroy() {
-    this.cancelSubscriptions()
+    // this.fbSubs.push(this.db
+    //   .collection('availableExercises')
+    //   .snapshotChanges()
+    //   .map(docArray => {
+    //     return docArray.map(doc => {
+    //       return {
+    //         id: doc.payload.doc.id,
+    //         name: doc.payload.doc.data()['name'],
+    //         duration: doc.payload.doc.data()['duration'],
+    //         calories: doc.payload.doc.data()['calories']
+    //       };
+    //     });
+    //   })
+    //   .subscribe((exercises: Exercise[]) => {
+    //     this.availableExercises = exercises;
+    //     this.exercisesChanged.next([...this.availableExercises]);
+    //   }));
   }
 
   cancelSubscriptions() {

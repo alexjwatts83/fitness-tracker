@@ -13,7 +13,7 @@ export class AuthGaurd implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.authService.isAuthenticated()){
+    if (this.authService.isAuth()){
       console.log('isAuthenticated');
       return true;
     } else {

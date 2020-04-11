@@ -18,7 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.authSub$ = this.authService.authChanged.subscribe((authStatus: boolean) => {
+    this.authService.initAuthListener();
+    this.authSub$ = this.authService.authChange.subscribe((authStatus: boolean) => {
       this.isAuth = authStatus;
       console.log('authStatus: ' + authStatus)
       this.links = this.getLinks(!this.isAuth);
