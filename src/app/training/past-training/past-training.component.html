@@ -1,14 +1,15 @@
-<section fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+<section fxLayout="column" fxLayoutAlign="center center">
   <mat-table 
     [dataSource]="dataSource"
     matSort
     class="mat-elevation-z8"
     fxFlexFill>
     <ng-container matColumnDef="state">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Completed</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-icon *ngIf="element.state === 'cancelled'" class="cancelled">cancel</mat-icon>
         <mat-icon *ngIf="element.state === 'completed'" class="complete">check_circle</mat-icon>
+        <mat-icon *ngIf="element.state === null" class="warn">not_interested</mat-icon>
       </mat-cell>
     </ng-container>
   

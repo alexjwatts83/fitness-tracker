@@ -7,7 +7,7 @@ export class TrainingService {
   private availableExercisese: Exercise[];
   private runningExercise: Exercise;
   private exercises: Exercise[];
-  
+
   exerciseChanged = new Subject<Exercise>();
 
   constructor() {
@@ -32,6 +32,14 @@ export class TrainingService {
         calories: this.availableExercisese[i].calories * (progress / 100),
         date: new Date(),
         state: 'cancelled'
+      });
+      progress = Math.round(Math.random() * 100);
+      this.exercises.push({
+        ...this.availableExercisese[i],
+        duration: this.availableExercisese[i].duration * (progress / 100),
+        calories: this.availableExercisese[i].calories * (progress / 100),
+        date: new Date(),
+        state: null
       });
     }
   }

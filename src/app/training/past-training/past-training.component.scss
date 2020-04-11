@@ -4,11 +4,11 @@
 .cancelled {
   color: red;
 }
+.warn{
+  color: orange;
+}
 .filter-header{
   ::ng-deep .mat-form-field-wrapper{
     margin-bottom: -1.25em;
   }
-}
-::ng-deep .mat-table {
-  margin-bottom: 0px !important;
 }
