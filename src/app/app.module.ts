@@ -25,6 +25,7 @@ import { AngularFireModule } from '@angular/fire';
 // import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     // AngularFireDatabaseModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [
     SiteNavService,

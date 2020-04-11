@@ -3,41 +3,51 @@ import { AuthData } from './auth-data.model';
 import { User } from './user.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth'
 
 @Injectable()
 export class AuthService {
-  private user: User;
+  // private user: User;
   authChanged = new Subject<boolean>();
-
-  constructor(private router: Router) {
-    this.user =null; 
+  private isAuthd: boolean;
+  constructor(private router: Router, private afAuth: AngularFireAuth) {
+    this.isAuthd = false;
   }
 
   register(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 10000).toString()
-    };
-    console.log(this.user);
-    this.setAuthChanged(true);
+    let prom = this.afAuth.createUserWithEmailAndPassword(authData.email,authData.password);
+    prom
+      .then(result => {
+        console.log({regAuth: result});
+        this.setAuthChanged(true);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   login(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 10000).toString()
-    };
-    console.log(this.user);
-    this.setAuthChanged(true);
+    let prom = this.afAuth.signInWithEmailAndPassword(authData.email,authData.password);
+    prom
+      .then(result => {
+        console.log({regAuth: result});
+        this.setAuthChanged(true);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   logout() {
-    this.user = null;
+    // this.user = null;
+    // this.setAuthChanged(false);
+    this.afAuth.signOut();
     this.setAuthChanged(false);
   }
 
   private setAuthChanged(isAuth: boolean) {
     this.authChanged.next(isAuth);
+    this.isAuthd = isAuth;
     if (isAuth){
       this.router.navigate(['/training']);
     } else {
@@ -45,11 +55,11 @@ export class AuthService {
     }
   }
 
-  getUser() {
-    return { ...this.user };
-  }
+  // getUser() {
+  //   return { ...this.user };
+  // }
 
   isAuthenticated() {
-    return this.user !== null;
+    return this.isAuthd;
   }
 }
