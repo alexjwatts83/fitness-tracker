@@ -4,3 +4,8 @@
 .cancelled {
   color: red;
 }
+.filter-header{
+  ::ng-deep .mat-form-field-wrapper{
+    margin-bottom: -1.25em;
+  }
+}

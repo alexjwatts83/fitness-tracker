@@ -17,6 +17,7 @@ export class PastTrainingComponent implements OnInit {
   dataSource: MatTableDataSource<Exercise>;
   displayedColumns: string[] = ['state', 'date','time','name','duration','calories'];
   pageSizeOptions: number[];
+  filterHeader: string[] = ['filter'];
 
   constructor(private trainingService: TrainingService) {
     this.pageSizeOptions = [5, 10, 20];

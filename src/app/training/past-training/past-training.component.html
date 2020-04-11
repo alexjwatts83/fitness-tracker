@@ -1,14 +1,4 @@
 <section fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input 
-      type="text"
-      matInput 
-      (keyup)="filterList($event)"
-      placeholder="Ex. Plank"
-      autocomplete="off">
-  </mat-form-field>
-
   <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" fxFlexFill>
     <ng-container matColumnDef="state">
       <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
@@ -46,7 +36,23 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Calories</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.calories | number: '1.0-1'}}</mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="filter">
+      <mat-header-cell *matHeaderCellDef class="filter-header">
+        <mat-form-field appearance="outline">
+          <mat-label>Exercises:</mat-label>
+          <input 
+            type="text"
+            matInput 
+            (keyup)="filterList($event)"
+            autocomplete="off"
+            placeholder="Ex. Plank">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </mat-header-cell>
+    </ng-container>
   
+    <mat-header-row *matHeaderRowDef="filterHeader"></mat-header-row>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
