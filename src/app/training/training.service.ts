@@ -2,6 +2,7 @@ import { Exercise } from './exercise.model';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { UiService } from '../shared/ui.service';
 
 @Injectable()
 export class TrainingService implements OnDestroy {
@@ -15,38 +16,22 @@ export class TrainingService implements OnDestroy {
 
   fbSubs: Subscription[] = [];
 
-  constructor(private readonly afs: AngularFirestore) {
+  constructor(private readonly afs: AngularFirestore, private uiService: UiService) {
   }
 
   ngOnDestroy() {
     // this.cancelSubscriptions()
   }
 
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   fetchAvailableExercises() {
-    this.availableExercisesCollection = this.afs.collection<Exercise>('AvailableExercises');
-
-    this.fbSubs.push(this.availableExercisesCollection
-      .snapshotChanges()
-      .subscribe(response => {
-
-        this.availableExercises = response.map((x: any) => {
-          const data = x.payload.doc.data() as Exercise;
-          const id = x.payload.doc.id;
-          return { 
-            id,
-            ...data 
-          };
-        });
-        console.log('snapshotChanges');
-        this.exercisesChanged.next([...this.availableExercises]);
-      },
-      ((error: any) => {
-        // console.log(error);
-      }),
-      ()=> {
-        console.log('complete');
-      })
-    );
+    console.log('fetchAvailableExercises');
+    this.uiService.loadingStateChanged.next(true);
+    this.sleep(2000).then(() => { console.log("World!"); this.doStuff(); });
+    
     // this.fbSubs.push(this.db
     //   .collection('availableExercises')
     //   .snapshotChanges()
@@ -64,6 +49,36 @@ export class TrainingService implements OnDestroy {
     //     this.availableExercises = exercises;
     //     this.exercisesChanged.next([...this.availableExercises]);
     //   }));
+  }
+
+  doStuff() {
+    console.log('doStuff');
+    this.availableExercisesCollection = this.afs.collection<Exercise>('AvailableExercises');
+
+      this.fbSubs.push(this.availableExercisesCollection
+        .snapshotChanges()
+        .subscribe(response => {
+          this.availableExercises = response.map((x: any) => {
+            const data = x.payload.doc.data() as Exercise;
+            const id = x.payload.doc.id;
+            return { 
+              id,
+              ...data 
+            };
+          });
+          console.log('snapshotChanges');
+          this.exercisesChanged.next([...this.availableExercises]);
+          this.uiService.loadingStateChanged.next(false);
+        },
+        ((error: any) => {
+          // console.log(error);
+          this.uiService.loadingStateChanged.next(false);
+        }),
+        ()=> {
+          console.log('complete');
+          console.log('fetchAvailableExercises finished');
+        })
+      );
   }
 
   cancelSubscriptions() {
