@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { TrainingService } from '../training/training.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class AuthService {
@@ -13,8 +14,15 @@ export class AuthService {
   constructor(
     private router: Router,
     private afAuth: AngularFireAuth,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private snackBar: MatSnackBar
   ) {}
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
@@ -40,6 +48,7 @@ export class AuthService {
       })
       .catch(error => {
         console.log(error);
+        this.openSnackBar(error.message, null);
       });
   }
 
@@ -52,6 +61,7 @@ export class AuthService {
       })
       .catch(error => {
         console.log(error);
+        this.openSnackBar(error.message, null);
       });
   }
 
