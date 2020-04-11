@@ -1,61 +1,54 @@
 import { Exercise } from './exercise.model';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 @Injectable()
-export class TrainingService {
-  private availableExercisese: Exercise[];
+export class TrainingService implements OnDestroy {
+  private availableExercisesCollection: AngularFirestoreCollection<Exercise>;
+  private availableExercises: Exercise[];
   private runningExercise: Exercise;
-  private exercises: Exercise[];
 
+  exercisesChanged = new Subject<Exercise[]>();
   exerciseChanged = new Subject<Exercise>();
+  finishedExercisesChanged = new Subject<Exercise[]>();
 
-  constructor() {
-    this.exercises = [];
-    this.availableExercisese = [
-      { id: 'plank', name: 'Plank', duration: 6, calories: 80 },
-      { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
-      { id: 'touch-toes', name: 'Touch Toes', duration: 180, calories: 15 },
-      { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 18 },
-      { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 },
-    ]
-    for(let i = 0; i < this.availableExercisese.length; i++) {
-      this.exercises.push({
-        ...this.availableExercisese[i],
-        date: new Date(),
-        state: 'completed'
+  constructor(private readonly afs: AngularFirestore) {
+    this.availableExercisesCollection = afs.collection<Exercise>('AvailableExercises');
+
+    this.availableExercisesCollection
+      .snapshotChanges()
+      .subscribe(response => {
+
+        this.availableExercises = response.map((x: any) => {
+          const data = x.payload.doc.data() as Exercise;
+          const id = x.payload.doc.id;
+          return { 
+            id,
+            ...data 
+          };
+        });
+        console.log('snapshotChanges');
+        this.exercisesChanged.next(this.availableExercises);
+      },
+      ((error: any) => {
+        console.log(error);
+      }),
+      ()=> {
+        console.log('complete');
       });
-      let progress = Math.round(Math.random() * 100);
-      this.exercises.push({
-        ...this.availableExercisese[i],
-        duration: this.availableExercisese[i].duration * (progress / 100),
-        calories: this.availableExercisese[i].calories * (progress / 100),
-        date: new Date(),
-        state: 'cancelled'
-      });
-      progress = Math.round(Math.random() * 100);
-      this.exercises.push({
-        ...this.availableExercisese[i],
-        duration: this.availableExercisese[i].duration * (progress / 100),
-        calories: this.availableExercisese[i].calories * (progress / 100),
-        date: new Date(),
-        state: null
-      });
-    }
   }
 
-  getAll() {
-    return this.availableExercisese.slice();
-  }
+  ngOnDestroy() {}
 
   startExercise(exerciseId: string) {
-    const exercise = this.availableExercisese.find((x: Exercise) => x.id === exerciseId);
+    const exercise = this.availableExercises.find((x: Exercise) => x.id === exerciseId);
     this.runningExercise = exercise;
     this.exerciseChanged.next({...this.runningExercise});
   }
 
   completeExercise() {
-    this.exercises.push({
+    this.addExerciseToPastExercises({
       ...this.runningExercise,
       date: new Date(),
       state: 'completed'
@@ -65,7 +58,7 @@ export class TrainingService {
   }
 
   cancelExercise(progress: number) {
-    this.exercises.push({
+    this.addExerciseToPastExercises({
       ...this.runningExercise,
       duration: this.runningExercise.duration * (progress / 100),
       calories: this.runningExercise.calories * (progress / 100),
@@ -76,9 +69,23 @@ export class TrainingService {
     this.exerciseChanged.next(null);
   }
 
-  getPastExercises() {
-    let newExercises = [...this.exercises];
-    
-    return newExercises;
+  fetchPastExercises() {
+    this.afs
+      .collection('PastExercises')
+      .valueChanges()
+      .subscribe((exercises: Exercise[]) => {
+        this.finishedExercisesChanged.next(exercises);
+      });
+  }
+
+  addExerciseToPastExercises(exercise: Exercise) {
+    this.afs
+      .collection('PastExercises')
+      .add(exercise)
+        .then((response: any) => {
+          console.debug(response);
+        }).catch((err: any) => {
+          console.error(err);
+        });
   }
 }

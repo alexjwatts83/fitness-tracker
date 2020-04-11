@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TrainingService } from './training.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Exercise } from './exercise.model';
 
 @Component({
@@ -9,28 +9,33 @@ import { Exercise } from './exercise.model';
   styleUrls: ['./training.component.scss']
 })
 export class TrainingComponent implements OnInit, OnDestroy {
-  ongoingTraining = false;
-  exercisedChanged$: Subscription;
+  private exercisesChanged$: Subscription;
+  private exerciseChanged$: Subscription;
+
   exercises: Exercise[];
   exercise: Exercise;
-
-  constructor(private trainingService: TrainingService) { }
+  
+  constructor(
+    private trainingService: TrainingService
+  ) { }
 
   ngOnInit(): void {
-    this.exercises = this.trainingService.getAll();
+    this.exercisesChanged$ = this.trainingService
+      .exercisesChanged
+      .subscribe((data: Exercise[]) => {
+        this.exercises = data;
+      });
 
-    this.exercisedChanged$ = this.trainingService.exerciseChanged
-      .subscribe((exercise: Exercise) => {
-        console.log({
-          exercise: exercise
-        });
-        this.ongoingTraining = (exercise != null);
-        this.exercise = exercise;
+    this.exerciseChanged$ = this.trainingService
+      .exerciseChanged
+      .subscribe((data: Exercise) => {
+        this.exercise = data;
       });
   }
 
   ngOnDestroy(): void {
-    this.exercisedChanged$.unsubscribe();
+    this.exercisesChanged$.unsubscribe();
+    this.exerciseChanged$.unsubscribe();
   }
 
   startTraining(data: any) {
