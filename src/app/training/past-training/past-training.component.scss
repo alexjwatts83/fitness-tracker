@@ -9,3 +9,6 @@
     margin-bottom: -1.25em;
   }
 }
+::ng-deep .mat-table {
+  margin-bottom: 0px !important;
+}

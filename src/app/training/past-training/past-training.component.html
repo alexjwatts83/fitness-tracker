@@ -1,5 +1,9 @@
 <section fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" fxFlexFill>
+  <mat-table 
+    [dataSource]="dataSource"
+    matSort
+    class="mat-elevation-z8"
+    fxFlexFill>
     <ng-container matColumnDef="state">
       <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -59,7 +63,7 @@
 
   <mat-paginator
     [pageSizeOptions]="pageSizeOptions"
-    showFirstLastButtons></mat-paginator>
+    showFirstLastButtons fxFlexFill></mat-paginator>
 </section>
 
 
