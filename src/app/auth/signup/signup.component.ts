@@ -12,6 +12,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   maxDobDate: Date;
   isLoading: boolean;
   private loading$ = new Subscription();
+
   constructor(private authService: AuthService, private uiService: UiService) { 
     this.isLoading = false;
   }
@@ -19,13 +20,16 @@ export class SignupComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.maxDobDate = new Date();
     this.maxDobDate.setFullYear(this.maxDobDate.getFullYear() - 18);
-    this.loading$ = this.uiService.loadingStateChanged.subscribe((res: boolean) => {
+
+    this.loading$ = this.uiService.getLoadingStateSubject().subscribe((res: boolean) => {
       this.isLoading = res;
     })
   }
 
   ngOnDestroy(): void {
-    this.loading$.unsubscribe();
+    if (this.loading$){
+      this.loading$.unsubscribe();
+    }
   }
 
 

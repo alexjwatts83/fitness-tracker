@@ -29,7 +29,7 @@ export class TrainingService implements OnDestroy {
 
   fetchAvailableExercises() {
     console.log('fetchAvailableExercises');
-    this.uiService.loadingStateChanged.next(true);
+    this.uiService.startLoading();
     
     this.sleep(200).then(() => { console.log("World!"); this.fetchAvailableExercisesFromDb(); });
   }
@@ -50,11 +50,11 @@ export class TrainingService implements OnDestroy {
         });
         console.log('snapshotChanges');
         this.exercisesChanged.next([...this.availableExercises]);
-        this.uiService.loadingStateChanged.next(false);
+        this.uiService.finishedLoading();
       },
       ((error: any) => {
         // console.log(error);
-        this.uiService.loadingStateChanged.next(false);
+        this.uiService.finishedLoading();
         this.uiService.openSnackBar('Fetching Exercises failed, please try again later');
         this.exercisesChanged.next(null);
       }),
@@ -82,8 +82,6 @@ export class TrainingService implements OnDestroy {
       date: new Date(),
       state: 'completed'
     });
-    this.runningExercise = null;
-    this.exerciseChanged.next(null);
   }
 
   cancelExercise(progress: number) {
@@ -94,8 +92,6 @@ export class TrainingService implements OnDestroy {
       date: new Date(),
       state: 'cancelled'
     });
-    this.runningExercise = null;
-    this.exerciseChanged.next(null);
   }
 
   fetchPastExercises() {
@@ -103,18 +99,31 @@ export class TrainingService implements OnDestroy {
       .collection('PastExercises')
       .valueChanges()
       .subscribe((exercises: Exercise[]) => {
-        this.finishedExercisesChanged.next(exercises);
-      }));
+        this.finishedExercisesChanged.next([...exercises]);
+      },
+      ((error: any) => {
+        this.uiService.finishedLoading();
+        this.uiService.openSnackBar('Fetching Exercises failed, please try again later');
+        this.exercisesChanged.next(null);
+      }))
+    );
   }
 
   addExerciseToPastExercises(exercise: Exercise) {
+    this.uiService.startLoading();
     this.afs
       .collection('PastExercises')
       .add(exercise)
         .then((response: any) => {
           console.debug(response);
+          this.runningExercise = null;
+          this.exerciseChanged.next(null);
+          this.uiService.openSnackBar('Saving exercise success');
+          this.uiService.finishedLoading();
         }).catch((err: any) => {
           console.error(err);
+          this.uiService.finishedLoading();
+          this.uiService.openSnackBar('Saving exercise to db failed');
         });
   }
 }

@@ -29,13 +29,18 @@ export class TrainingComponent implements OnInit, OnDestroy {
       .exercisesChanged
       .subscribe((data: Exercise[]) => {
         this.exercises = data;
-        // this.exercises = null;
+        console.log('exercise list received', data);
       });
 
     this.exerciseChanged$ = this.trainingService
       .exerciseChanged
       .subscribe((data: Exercise) => {
         this.exercise = data;
+        console.log('single exercise received', data);
+        if (data === null) {
+          console.log('checking exercises list');
+          console.log(this.exercises);
+        }
       });
   }
 

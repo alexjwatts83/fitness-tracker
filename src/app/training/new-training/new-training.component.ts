@@ -21,16 +21,17 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   
   constructor(
     private uiService: UiService
-  ) {
-    this.isLoading = true;
-  }
+  ) {}
 
   ngOnInit(): void {
+    console.log('NewTrainingComponent init');
+    this.isLoading = this.uiService.getLoadingState();
+
     this.newExerciseForm = new FormGroup({
       exercise: new FormControl('', { validators: [Validators.required] })
     })
     
-    this.isLoadingSub$ = this.uiService.loadingStateChanged.subscribe((res: boolean) => {
+    this.isLoadingSub$ = this.uiService.getLoadingStateSubject().subscribe((res: boolean) => {
       console.log('res: ' + res);
       this.isLoading = res;
     });

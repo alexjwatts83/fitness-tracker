@@ -23,13 +23,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: new FormControl('', { validators: [Validators.required, Validators.email] }),
       password: new FormControl('', { validators: [Validators.required] })
     });
-    this.loading$ = this.uiService.loadingStateChanged.subscribe((res: boolean) => {
+
+    this.loading$ = this.uiService.getLoadingStateSubject().subscribe((res: boolean) => {
       this.isLoading = res;
     })
   }
 
   ngOnDestroy(): void {
-    this.loading$.unsubscribe();
+    if (this.loading$){
+      this.loading$.unsubscribe();
+    }
   }
 
   onSubmit() {

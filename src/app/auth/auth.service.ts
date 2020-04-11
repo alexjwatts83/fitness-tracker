@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { TrainingService } from '../training/training.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { UiService } from '../shared/ui.service';
 
 @Injectable()
@@ -36,33 +35,33 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
-    this.uiService.loadingStateChanged.next(true);
+    this.uiService.startLoading();
     this.afAuth
       .createUserWithEmailAndPassword(authData.email, authData.password)
       .then(result => {
         this.authSuccessfully();
-        this.uiService.loadingStateChanged.next(false);
+        this.uiService.finishedLoading();
       })
       .catch(error => {
         console.log(error);
         this.uiService.openSnackBar(error.message);
-        this.uiService.loadingStateChanged.next(false);
+        this.uiService.finishedLoading();
       });
   }
 
   login(authData: AuthData) {
-    this.uiService.loadingStateChanged.next(true);
+    this.uiService.startLoading();
     this.afAuth
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then(result => {
         console.log(result);
         this.authSuccessfully();
-        this.uiService.loadingStateChanged.next(false);
+        this.uiService.finishedLoading();
       })
       .catch(error => {
         console.log(error);
         this.uiService.openSnackBar(error.message);
-        this.uiService.loadingStateChanged.next(false);
+        this.uiService.finishedLoading();
       });
   }
 
