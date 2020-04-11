@@ -1,24 +1,16 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '../materials-module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+// modules
 import { AngularFireAuthModule } from '@angular/fire/auth';
-
+import { SharedModule } from '../shared/shared.module';
+// components
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [LoginComponent, SignupComponent],
   imports: [
-    BrowserModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularFirestoreModule,
     AngularFireAuthModule,
+    SharedModule
   ],
   exports: [LoginComponent, SignupComponent],
 })

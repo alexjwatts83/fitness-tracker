@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '../materials-module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 import { TrainingComponent } from './training.component';
 import { NewTrainingComponent } from './new-training/new-training.component';
@@ -19,11 +16,7 @@ const components = [
 @NgModule({
   declarations: [components],
   imports: [
-    BrowserModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [components],
 })
