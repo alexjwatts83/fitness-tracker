@@ -19,9 +19,7 @@ export class TrainingService implements OnDestroy {
   constructor(private readonly afs: AngularFirestore, private uiService: UiService) {
   }
 
-  ngOnDestroy() {
-    // this.cancelSubscriptions()
-  }
+  ngOnDestroy() {}
 
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

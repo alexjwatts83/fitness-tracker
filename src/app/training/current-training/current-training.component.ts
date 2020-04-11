@@ -33,7 +33,7 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   startOrResumeTimer() {
-    this.message = 'keep it one hunid';
+    this.message = `keep it 100 for ${this.exercise.duration} seconds`;
     this.timer = setInterval(()=>{
       this.progress += 1;
       this.progressDisplay = Math.floor(this.progress);
