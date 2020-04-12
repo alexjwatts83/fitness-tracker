@@ -4,7 +4,6 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
-  Input,
 } from '@angular/core';
 import { TrainingService } from '../training.service';
 import { Exercise } from '../exercise.model';
@@ -48,29 +47,19 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.trainingService.fetchPastExercises();
     this.pastExercises$ = this.store.select(fromTraining.getFinishedExercises);
+
     this.pastExercises$.subscribe((dbExercises: any[]) => {
-      console.log({pastExercises: dbExercises});
       let exercises = dbExercises.map((e: any) => {
         return {
           ...e,
-          date: e.date.toDate()
+          date: e.date.toDate(),
         };
       });
       this.dataSource.data = exercises;
-    })
-    // this.pastExercisesChanged$ = this.trainingService
-    //   .finishedExercisesChanged.subscribe((dbExercises: any[])=>{
-    //     let exercises = dbExercises.map((e: any) => {
-    //       return {
-    //         ...e,
-    //         date: e.date.toDate()
-    //       };
-    //     });
-    //     this.dataSource.data = exercises;
-    //   });
-    // this.trainingService.fetchPastExercises();
+    });
+
+    this.trainingService.fetchPastExercises();
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +74,6 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterList(event: Event) {
-    console.log({ event: event });
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

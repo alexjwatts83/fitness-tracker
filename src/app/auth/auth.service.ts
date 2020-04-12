@@ -22,7 +22,6 @@ export class AuthService {
 
   initAuthListener() {
     this.afAuth.authState.subscribe((user) => {
-      console.log({ user: user });
       if (user) {
         this.store.dispatch(new authActions.SetAuthenticated());
         this.router.navigate(['/training']);
@@ -43,7 +42,7 @@ export class AuthService {
         this.store.dispatch(new uiActions.StopLoading());
       })
       .catch((error) => {
-        console.log(error);
+        console.warn(error);
         this.uiService.openSnackBar(error.message);
         this.store.dispatch(new uiActions.StopLoading());
       });
@@ -58,14 +57,13 @@ export class AuthService {
         this.store.dispatch(new uiActions.StopLoading());
       })
       .catch((error) => {
-        console.log(error);
+        console.warn(error);
         this.uiService.openSnackBar(error.message);
         this.store.dispatch(new uiActions.StopLoading());
       });
   }
 
   logout() {
-    console.log('logout called');
     this.afAuth.signOut();
   }
 }

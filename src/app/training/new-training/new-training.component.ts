@@ -21,7 +21,6 @@ export class NewTrainingComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
-    console.log('NewTrainingComponent init');
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
     this.newExerciseForm = new FormGroup({
