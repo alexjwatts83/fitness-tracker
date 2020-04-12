@@ -5,7 +5,7 @@ import { AuthGaurd } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'training',
+    path: '',
     component: TrainingComponent,
     canActivate: [AuthGaurd]
   }
@@ -13,7 +13,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [AuthGaurd]
 })
 
 export class TrainingRoutingModule {}
