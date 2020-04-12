@@ -2,13 +2,13 @@
   <mat-sidenav #sidenav role="navigation">
     <app-sidenav-list (toggleSideNav)="sidenav.toggle()" 
                       [links]="links"
-                      [isAuth]="isAuth"
+                      [isAuth]="(isAuth$ | async)"
                       (logoutClicked)="logout()"></app-sidenav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-header (toggleSideNav)="sidenav.toggle()"
                 [links]="links"
-                [isAuth]="isAuth"
+                [isAuth]="(isAuth$ | async)"
                 (logoutClicked)="logout()"></app-header>
     <main>
       <router-outlet></router-outlet>
