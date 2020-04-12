@@ -1,6 +1,6 @@
 import { Exercise } from './exercise.model';
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -15,12 +15,6 @@ import { take } from 'rxjs/operators';
 @Injectable()
 export class TrainingService implements OnDestroy {
   private availableExercisesCollection: AngularFirestoreCollection<Exercise>;
-  // private availableExercises: Exercise[];
-  // private runningExercise: Exercise;
-
-  // exercisesChanged = new Subject<Exercise[]>();
-  // exerciseChanged = new Subject<Exercise>();
-  // finishedExercisesChanged = new Subject<Exercise[]>();
 
   fbSubs: Subscription[] = [];
 
