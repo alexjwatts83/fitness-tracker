@@ -1,38 +1,49 @@
 <section class="sign-up-container" fxLayout fxLayoutAlign="center">
   <mat-card fxFlex.xs="100%" fxFlex="400px">
-    <mat-card-title fxLayout="column" fxLayoutAlign="center center">Login</mat-card-title>
+    <mat-card-title fxLayout="column" fxLayoutAlign="center center"
+      >Login</mat-card-title
+    >
     <mat-card-content>
       <section class="sign-up-section">
-        <form fxLayout="column" 
-              fxLayoutAlign="center center" 
-              fxGap="10"
-              [formGroup]="loginForm"
-              (ngSubmit)="onSubmit()">
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxGap="10"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+        >
           <mat-form-field>
-            <input 
-                  matInput
-                  type="email" 
-                  placeholder="Enter Email" 
-                  formControlName="email"
-                  autocomplete="on" />
+            <input
+              matInput
+              type="email"
+              placeholder="Enter Email"
+              formControlName="email"
+              autocomplete="on"
+            />
             <mat-error>Email is missing or invalid.</mat-error>
           </mat-form-field>
-      
+
           <mat-form-field>
-            <input  matInput
-                    type="password"
-                    placeholder="Enter Password"
-                    formControlName="password"
-                    autocomplete="off" />
+            <input
+              matInput
+              type="password"
+              placeholder="Enter Password"
+              formControlName="password"
+              autocomplete="off"
+            />
             <mat-error>Password is required.</mat-error>
           </mat-form-field>
-      
-          <button mat-raised-button
-                  type="submit"
-                  color="primary"
-                  [disabled]="loginForm.invalid"
-                  *ngIf="!isLoading">Submit</button>
-          <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="loginForm.invalid"
+            *ngIf="!(isLoading$ | async)"
+          >
+            Submit
+          </button>
+          <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
         </form>
       </section>
     </mat-card-content>
