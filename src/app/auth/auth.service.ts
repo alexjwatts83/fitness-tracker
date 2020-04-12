@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth'
+import { AngularFireAuth } from '@angular/fire/auth';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
 
@@ -24,8 +24,8 @@ export class AuthService {
   ) {}
 
   initAuthListener() {
-    this.afAuth.authState.subscribe(user => {
-      console.log({user:user});
+    this.afAuth.authState.subscribe((user) => {
+      console.log({ user: user });
       if (user) {
         this.isAuthenticated = true;
         this.authChange.next(true);
@@ -44,12 +44,12 @@ export class AuthService {
     this.store.dispatch(new uiActions.StartLoading());
     this.afAuth
       .createUserWithEmailAndPassword(authData.email, authData.password)
-      .then(result => {
+      .then((result) => {
         this.authSuccessfully();
         // this.uiService.finishedLoading();
         this.store.dispatch(new uiActions.StopLoading());
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         this.uiService.openSnackBar(error.message);
         // this.uiService.finishedLoading();
@@ -61,13 +61,13 @@ export class AuthService {
     this.store.dispatch(new uiActions.StartLoading());
     this.afAuth
       .signInWithEmailAndPassword(authData.email, authData.password)
-      .then(result => {
+      .then((result) => {
         console.log(result);
         this.authSuccessfully();
         // this.uiService.finishedLoading();
         this.store.dispatch(new uiActions.StopLoading());
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         this.uiService.openSnackBar(error.message);
         // this.uiService.finishedLoading();

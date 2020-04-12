@@ -17,8 +17,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading$: Observable<boolean>;
 
-  // private loading$ = new Subscription();
-
   constructor(
     private authService: AuthService,
     private store: Store<fromRoot.State>
@@ -26,10 +24,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
-
-    this.store.subscribe(response => {
-      console.log({storeSub: response});
-    })
 
     this.loginForm = new FormGroup({
       email: new FormControl('', {

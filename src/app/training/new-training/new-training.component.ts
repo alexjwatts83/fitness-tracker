@@ -1,46 +1,32 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Exercise } from '../exercise.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UiService } from 'src/app/shared/ui.service';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
 
 @Component({
   selector: 'app-new-training',
   templateUrl: './new-training.component.html',
-  styleUrls: ['./new-training.component.scss']
+  styleUrls: ['./new-training.component.scss'],
 })
-export class NewTrainingComponent implements OnInit, OnDestroy {
+export class NewTrainingComponent implements OnInit {
   @Output() startTraining = new EventEmitter<string>();
   @Output() fetchAgain = new EventEmitter<void>();
   @Input() exercises: Exercise[];
 
-  private isLoadingSub$ =  new Subscription();
-
   newExerciseForm: FormGroup;
-  isLoading: boolean = false;
-  
-  constructor(
-    private uiService: UiService
-  ) {}
+  isLoading$: Observable<boolean>;
+
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
     console.log('NewTrainingComponent init');
-    this.isLoading = this.uiService.getLoadingState();
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
     this.newExerciseForm = new FormGroup({
-      exercise: new FormControl('', { validators: [Validators.required] })
-    })
-    
-    this.isLoadingSub$ = this.uiService.getLoadingStateSubject().subscribe((res: boolean) => {
-      console.log('res: ' + res);
-      this.isLoading = res;
+      exercise: new FormControl('', { validators: [Validators.required] }),
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.isLoadingSub$) {
-      this.isLoadingSub$.unsubscribe();
-    }
   }
 
   onStartTraining() {
