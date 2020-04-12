@@ -1,7 +1,7 @@
-<mat-tab-group *ngIf="!exercise">
+<mat-tab-group *ngIf="!(exercise$ | async)">
   <mat-tab label="New Exercise">
     <app-new-training (startTraining)="startTraining($event)"
-                      [exercises]="exercises"
+                      [exercises]="(exercises$ | async)"
                       (fetchAgain)="fetchAgain()"></app-new-training>
   </mat-tab>
   <mat-tab label="Past Exercises">
@@ -10,7 +10,7 @@
 </mat-tab-group>
 
 <app-current-training 
-      *ngIf="exercise"
-      [exercise]="exercise"
+      *ngIf="(exercise$ | async)"
+      [exercise]="(exercise$ | async)"
       (completedTraining)="completedTraining()"
       (cancelTraining)="cancelTraining($event)"></app-current-training>

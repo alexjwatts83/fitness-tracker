@@ -9,13 +9,9 @@ import { AuthRoutingModule } from './auth.routing.module';
 
 @NgModule({
   declarations: [LoginComponent, SignupComponent],
-  imports: [
-    AngularFireAuthModule,
-    SharedModule,
-    AuthRoutingModule
-  ],
+  imports: [AngularFireAuthModule, SharedModule, AuthRoutingModule],
   exports: [LoginComponent, SignupComponent],
 })
-export class AuthModule {} {
-
+export class AuthModule {}
+{
 }

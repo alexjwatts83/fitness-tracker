@@ -1,30 +1,30 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SiteNavService, SiteLink } from './navigation/site-nav.service';
 import { AuthService } from './auth/auth.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from './app.reducer';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   links: SiteLink[];
-  authSub$: Subscription;
-  isAuth: boolean;
+  private authSub$: Subscription;
+  isAuth$: Observable<boolean>;
   constructor(
-      private service: SiteNavService,
-      private authService: AuthService){
-    this.isAuth = false;
-    this.links = this.getLinks(!this.isAuth);
-  }
+    private service: SiteNavService,
+    private authService: AuthService,
+    private store: Store<fromRoot.State>
+  ) {}
 
   ngOnInit(): void {
     this.authService.initAuthListener();
-    this.authSub$ = this.authService.authChange.subscribe((authStatus: boolean) => {
-      this.isAuth = authStatus;
-      console.log('authStatus: ' + authStatus)
-      this.links = this.getLinks(!this.isAuth);
+    this.isAuth$ = this.store.select(fromRoot.getIsAuthenticated);
+    this.authSub$ = this.isAuth$.subscribe((authStatus: boolean) => {
+      this.links = this.getLinks(!authStatus);
     });
   }
 
@@ -39,6 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getLinks(hideIfAuth: boolean) {
-    return this.service.get().filter((x: SiteLink) => x.hideIfAuth === hideIfAuth);
+    return this.service
+      .get()
+      .filter((x: SiteLink) => x.hideIfAuth === hideIfAuth);
   }
 }

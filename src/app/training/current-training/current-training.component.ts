@@ -1,40 +1,40 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { 
-  ConfirmComponent, 
-  ConfirmComponentDialogData 
+import {
+  ConfirmComponent,
+  ConfirmComponentDialogData,
 } from 'src/app/dialogs/confirm/confirm.component';
 import { Exercise } from '../exercise.model';
 
 @Component({
   selector: 'app-current-training',
   templateUrl: './current-training.component.html',
-  styleUrls: ['./current-training.component.scss']
+  styleUrls: ['./current-training.component.scss'],
 })
 export class CurrentTrainingComponent implements OnInit {
   @Output() completedTraining = new EventEmitter();
   @Output() cancelTraining = new EventEmitter<number>();
   @Input() exercise: Exercise;
-  
+
   progress: number;
   timer: any;
   message: string;
   progressInc: number;
   progressDisplay: number;
 
-  constructor(public dialog: MatDialog) { 
+  constructor(public dialog: MatDialog) {
     this.progress = 0;
     this.message = 'keep it one hunid';
   }
 
   ngOnInit(): void {
-    this.progressInc = this.exercise.duration / 100 * 1000;
+    this.progressInc = (this.exercise.duration / 100) * 1000;
     this.startOrResumeTimer();
   }
 
   startOrResumeTimer() {
     this.message = `keep it 100 for ${this.exercise.duration} seconds`;
-    this.timer = setInterval(()=>{
+    this.timer = setInterval(() => {
       this.progress += 1;
       this.progressDisplay = Math.floor(this.progress);
       if (this.progress >= 100) {
@@ -47,16 +47,15 @@ export class CurrentTrainingComponent implements OnInit {
   onStopClicked() {
     this.stopInterval('You stopped it');
     var dialogData: ConfirmComponentDialogData = {
-      message: `Your current progress is ${this.progress}%`
-    }
+      message: `Your current progress is ${this.progress}%`,
+    };
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '250px',
-      data: dialogData
+      data: dialogData,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      console.log('do stuff after close', result);
-      if(result) {
+      if (result) {
         this.cancelTraining.emit(this.progress);
       } else {
         this.startOrResumeTimer();
