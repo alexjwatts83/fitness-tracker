@@ -37,7 +37,11 @@ export function trainingReducer(
     case fromTraining.SET_START_TRAINING:
       return {
         ...state,
-        activeTraining: action.payload,
+        activeTraining: {
+          ...state.availiableExercises.find(
+            (x: Exercise) => x.id == action.payload
+          ),
+        },
       };
     case fromTraining.SET_STOP_TRAINING:
       return {
@@ -66,4 +70,9 @@ export const getFinishedExercises = createSelector(
 export const getActiveTraining = createSelector(
   getTrainingState,
   (state: TrainingState) => state.activeTraining
+);
+
+export const getIsTraining = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.activeTraining != null
 );

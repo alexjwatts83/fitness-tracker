@@ -22,7 +22,7 @@ export class SetFinishedTrainings implements Action {
 export class SetStartTraining implements Action {
   readonly type = SET_START_TRAINING;
 
-  constructor(public payload: Exercise) {}
+  constructor(public payload: string) {}
 }
 
 export class SetStopTraining implements Action {
